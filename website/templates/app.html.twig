@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <br><br>
+
+    <h4>MISC</h4>
+
+    {% if auth.token %}
+        Hello: <strong>{{ auth.token.membership_id }}</strong>
+        - <a href="{{ path('d2_login_refresh') }}">Refresh Token</a>
+
+        <br><br>
+
+        User: <strong>{{ auth.user.displayName }}</strong>
+
+        {{ dump(auth.token) }}
+
+        <br>
+
+        {{ dump(auth.user) }}
+
+        <hr>
+
+        {{ dump(auth.profile) }}
+
+    {% else %}
+        <a href="{{ path('d2_login') }}">Login to your D2</a>
+    {% endif %}
+
+
+    <hr>
+
+    <h4>REACT APP</h4>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="app">
+                <div id="app"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
