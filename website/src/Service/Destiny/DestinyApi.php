@@ -51,7 +51,7 @@ class DestinyApi
      */
     protected function setAccessToken(?string $accessToken = null): self
     {
-        $this->accessToken = $accessToken;
+        $this->accessToken = $accessToken ?: DestinyToken::getToken('access_token');
         return $this;
     }
 

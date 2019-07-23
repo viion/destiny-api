@@ -32,9 +32,9 @@ class User extends DestinyApi
         );
     }
     
-    public function getMembershipsForCurrentUser($accessToken)
+    public function getMembershipsForCurrentUser()
     {
-        return $this->request(
+        return $this->setAccessToken()->request(
             DestinyApiEndpoints::build(
                 'User.GetMembershipDataForCurrentUser'
             )

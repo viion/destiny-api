@@ -8,9 +8,9 @@ use App\Service\Destiny\Enums\DestinyComponentType;
 
 class Destiny2 extends DestinyApi
 {
-    public function getProfile($accessToken, $membershipType, $destiny2MembershipId)
+    public function getProfile($membershipType, $destiny2MembershipId)
     {
-        return $this->setAccessToken($accessToken)->request(
+        return $this->setAccessToken()->request(
             DestinyApiEndpoints::build(
                 'User.GetMembershipDataForCurrentUser',
                 [
@@ -29,9 +29,9 @@ class Destiny2 extends DestinyApi
         );
     }
 
-    public function getCharacter($accessToken, $membershipType, $destiny2MembershipId, $characterId)
+    public function getCharacter($membershipType, $destiny2MembershipId, $characterId)
     {
-        return $this->setAccessToken($accessToken)->request(
+        return $this->setAccessToken()->request(
             DestinyApiEndpoints::build(
                 'User.GetMembershipDataForCurrentUser',
                 [

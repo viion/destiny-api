@@ -4,7 +4,7 @@ namespace App\Service\Destiny\API;
 
 use App\Service\Destiny\DestinyApi;
 use App\Service\Destiny\DestinyApiEndpoints;
-use Delight\Cookie\Cookie;
+use App\Service\Destiny\DestinyToken;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -13,10 +13,6 @@ use Ramsey\Uuid\Uuid;
  */
 class Auth extends DestinyApi
 {
-    /**
-     * Cookie name for storing the token
-     */
-    const COOKIE_NAME = 'destiny2_auth_token';
     /**
      * response_type: Must be “code”
      */
@@ -109,37 +105,10 @@ class Auth extends DestinyApi
                 [
                     'body' => [
                         self::QUERY_GRANT_TYPE => self::GRANT_TYPE_REFRESH,
-                        self::QUERY_REFRESH_TOKEN => $this->getToken()['refresh_token'],
+                        self::QUERY_REFRESH_TOKEN => DestinyToken::getToken('refresh_token'),
                     ]
                 ]
             )
         );
-    }
-    
-    /**
-     * Store a retrieved token in the users cookies
-     */
-    public function setToken(array $token)
-    {
-        $cookie = new Cookie(self::COOKIE_NAME);
-        $cookie->setValue(json_encode($token));
-        $cookie->setMaxAge($token['refresh_expires_in']);
-        $cookie->setPath('/');
-        $cookie->setDomain('destiny2.local');
-        $cookie->save();
-    }
-    
-    /**
-     * Restore a users tokens from their cookies
-     */
-    public function getToken()
-    {
-        $token = Cookie::get(self::COOKIE_NAME);
-        
-        if (empty($token)) {
-            return null;
-        }
-        
-        return json_decode($token, true);
     }
 }
