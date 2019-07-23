@@ -3,6 +3,7 @@
 namespace App\Service\Destiny\API;
 
 use App\Service\Destiny\DestinyApi;
+use App\Service\Destiny\DestinyApiEndpoints;
 use Delight\Cookie\Cookie;
 use Ramsey\Uuid\Uuid;
 
@@ -83,15 +84,17 @@ class Auth extends DestinyApi
     public function requestToken(string $code)
     {
         return $this->request(
-            DestinyApi::METHOD_POST,
-            DestinyApi::ENDPOINT_TOKEN,
-            [
-                'body' => [
-                    self::QUERY_GRANT_TYPE => self::GRANT_TYPE_AUTHORISE,
-                    self::QUERY_CODE => $code,
+            DestinyApiEndpoints::build(
+                'AppOauthToken',
+                null,
+                [
+                    'body' => [
+                        self::QUERY_GRANT_TYPE => self::GRANT_TYPE_AUTHORISE,
+                        self::QUERY_CODE => $code,
+                    ]
                 ]
-            ]
-        )->toArray();
+            )
+        );
     }
     
     /**
@@ -99,18 +102,18 @@ class Auth extends DestinyApi
      */
     public function refreshToken()
     {
-        $token = $this->getToken();
-    
         return $this->request(
-            DestinyApi::METHOD_POST,
-            DestinyApi::ENDPOINT_TOKEN,
-            [
-                'body' => [
-                    self::QUERY_GRANT_TYPE => self::GRANT_TYPE_REFRESH,
-                    self::QUERY_REFRESH_TOKEN => $token['refresh_token'],
+            DestinyApiEndpoints::build(
+                'AppOauthToken',
+                null,
+                [
+                    'body' => [
+                        self::QUERY_GRANT_TYPE => self::GRANT_TYPE_REFRESH,
+                        self::QUERY_REFRESH_TOKEN => $this->getToken()['refresh_token'],
+                    ]
                 ]
-            ]
-        )->toArray();
+            )
+        );
     }
     
     /**
