@@ -1,31 +1,27 @@
 <?php
 
-namespace Destiny2\Api\GroupV2;
+namespace Destiny2\Api\Paths\GroupV2;
 
 /**
+ * IndividualGroupInvite
+ *
  * Invite a user to join this group.
  */
 class IndividualGroupInvite
 {
-    const NAME           = 'GroupV2.IndividualGroupInvite';
-    const URI            = '/GroupV2/{groupId}/Members/IndividualInvite/{membershipType}/{membershipId}/';
-    const METHOD         = 'POST';
-    const TAGS           = '{tags}';
-    const OPERATION_ID   = '{operationId}';
 
-    const IS_PREVIEW     = {is_preview};
-    const IS_DEPRECATED  = {is_deprecated};
+    const NAME = 'GroupV2.IndividualGroupInvite';
 
-    const PARAMETERS = [
-        
-    ];
+    const URI = '/GroupV2/{groupId}/Members/IndividualInvite/{membershipType}/{membershipId}/';
 
-    const RESPONSE = [
-        
-    ];
+    const METHOD = 'POST';
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

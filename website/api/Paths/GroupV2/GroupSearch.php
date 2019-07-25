@@ -1,31 +1,27 @@
 <?php
 
-namespace Destiny2\Api\GroupV2;
+namespace Destiny2\Api\Paths\GroupV2;
 
 /**
+ * GroupSearch
+ *
  * Search for Groups.
  */
 class GroupSearch
 {
-    const NAME           = 'GroupV2.GroupSearch';
-    const URI            = '/GroupV2/Search/';
-    const METHOD         = 'POST';
-    const TAGS           = '{tags}';
-    const OPERATION_ID   = '{operationId}';
 
-    const IS_PREVIEW     = {is_preview};
-    const IS_DEPRECATED  = {is_deprecated};
+    const NAME = 'GroupV2.GroupSearch';
 
-    const PARAMETERS = [
-        
-    ];
+    const URI = '/GroupV2/Search/';
 
-    const RESPONSE = [
-        
-    ];
+    const METHOD = 'POST';
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

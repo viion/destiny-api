@@ -1,32 +1,28 @@
 <?php
 
-namespace Destiny2\Api\GroupV2;
+namespace Destiny2\Api\Paths\GroupV2;
 
 /**
- * Add a new optional conversation/chat channel. Requires admin permissions to
- * the group.
+ * AddOptionalConversation
+ *
+ * Add a new optional conversation/chat channel. Requires admin permissions to the
+ * group.
  */
 class AddOptionalConversation
 {
-    const NAME           = 'GroupV2.AddOptionalConversation';
-    const URI            = '/GroupV2/{groupId}/OptionalConversations/Add/';
-    const METHOD         = 'POST';
-    const TAGS           = '{tags}';
-    const OPERATION_ID   = '{operationId}';
 
-    const IS_PREVIEW     = {is_preview};
-    const IS_DEPRECATED  = {is_deprecated};
+    const NAME = 'GroupV2.AddOptionalConversation';
 
-    const PARAMETERS = [
-        
-    ];
+    const URI = '/GroupV2/{groupId}/OptionalConversations/Add/';
 
-    const RESPONSE = [
-        
-    ];
+    const METHOD = 'POST';
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

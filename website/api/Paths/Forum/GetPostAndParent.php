@@ -1,31 +1,41 @@
 <?php
 
-namespace Destiny2\Api\Forum;
+namespace Destiny2\Api\Paths\Forum;
 
 /**
+ * GetPostAndParent
+ *
  * Returns the post specified and its immediate parent.
  */
 class GetPostAndParent
 {
-    const NAME           = 'Forum.GetPostAndParent';
-    const URI            = '/Forum/GetPostAndParent/{childPostId}/';
-    const METHOD         = 'GET';
-    const TAGS           = 'Forum';
-    const OPERATION_ID   = 'Forum.GetPostAndParent';
 
-    const IS_PREVIEW     = false;
-    const IS_DEPRECATED  = false;
+    const NAME = 'Forum.GetPostAndParent';
 
-    const PARAMETERS = [
-        
+    const URI = '/Forum/GetPostAndParent/{childPostId}/';
+
+    const METHOD = 'GET';
+
+    const TAGS = [
+        'Forum',
     ];
+
+    const OPERATION_ID = 'Forum.GetPostAndParent';
+
+    const IS_DEPRECATED = false;
+
+    const IS_PREVIEW = false;
 
     const RESPONSE = [
-        200 => '#/components/responses/Forum.PostSearchResponse'
+        200 => '#/components/responses/Forum.PostSearchResponse',
     ];
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

@@ -1,31 +1,27 @@
 <?php
 
-namespace Destiny2\Api\Destiny2;
+namespace Destiny2\Api\Paths\Destiny2;
 
 /**
+ * AwaInitializeRequest
+ *
  * Initialize a request to perform an advanced write action.
  */
 class AwaInitializeRequest
 {
-    const NAME           = 'Destiny2.AwaInitializeRequest';
-    const URI            = '/Destiny2/Awa/Initialize/';
-    const METHOD         = 'POST';
-    const TAGS           = '{tags}';
-    const OPERATION_ID   = '{operationId}';
 
-    const IS_PREVIEW     = {is_preview};
-    const IS_DEPRECATED  = {is_deprecated};
+    const NAME = 'Destiny2.AwaInitializeRequest';
 
-    const PARAMETERS = [
-        
-    ];
+    const URI = '/Destiny2/Awa/Initialize/';
 
-    const RESPONSE = [
-        
-    ];
+    const METHOD = 'POST';
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

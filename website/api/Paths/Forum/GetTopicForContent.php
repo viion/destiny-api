@@ -1,31 +1,41 @@
 <?php
 
-namespace Destiny2\Api\Forum;
+namespace Destiny2\Api\Paths\Forum;
 
 /**
+ * GetTopicForContent
+ *
  * Gets the post Id for the given content item's comments, if it exists.
  */
 class GetTopicForContent
 {
-    const NAME           = 'Forum.GetTopicForContent';
-    const URI            = '/Forum/GetTopicForContent/{contentId}/';
-    const METHOD         = 'GET';
-    const TAGS           = 'Forum';
-    const OPERATION_ID   = 'Forum.GetTopicForContent';
 
-    const IS_PREVIEW     = false;
-    const IS_DEPRECATED  = false;
+    const NAME = 'Forum.GetTopicForContent';
 
-    const PARAMETERS = [
-        
+    const URI = '/Forum/GetTopicForContent/{contentId}/';
+
+    const METHOD = 'GET';
+
+    const TAGS = [
+        'Forum',
     ];
+
+    const OPERATION_ID = 'Forum.GetTopicForContent';
+
+    const IS_DEPRECATED = false;
+
+    const IS_PREVIEW = false;
 
     const RESPONSE = [
-        200 => '#/components/responses/int64'
+        200 => '#/components/responses/int64',
     ];
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

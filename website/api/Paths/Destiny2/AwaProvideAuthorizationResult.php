@@ -1,32 +1,28 @@
 <?php
 
-namespace Destiny2\Api\Destiny2;
+namespace Destiny2\Api\Paths\Destiny2;
 
 /**
- * Provide the result of the user interaction. Called by the Bungie Destiny
- * App to approve or reject a request.
+ * AwaProvideAuthorizationResult
+ *
+ * Provide the result of the user interaction. Called by the Bungie Destiny App to
+ * approve or reject a request.
  */
 class AwaProvideAuthorizationResult
 {
-    const NAME           = 'Destiny2.AwaProvideAuthorizationResult';
-    const URI            = '/Destiny2/Awa/AwaProvideAuthorizationResult/';
-    const METHOD         = 'POST';
-    const TAGS           = '{tags}';
-    const OPERATION_ID   = '{operationId}';
 
-    const IS_PREVIEW     = {is_preview};
-    const IS_DEPRECATED  = {is_deprecated};
+    const NAME = 'Destiny2.AwaProvideAuthorizationResult';
 
-    const PARAMETERS = [
-        
-    ];
+    const URI = '/Destiny2/Awa/AwaProvideAuthorizationResult/';
 
-    const RESPONSE = [
-        
-    ];
+    const METHOD = 'POST';
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

@@ -1,31 +1,41 @@
 <?php
 
-namespace Destiny2\Api\Trending;
+namespace Destiny2\Api\Paths\Trending;
 
 /**
+ * GetTrendingCategory
+ *
  * Returns paginated lists of trending items for a category.
  */
 class GetTrendingCategory
 {
-    const NAME           = 'Trending.GetTrendingCategory';
-    const URI            = '/Trending/Categories/{categoryId}/{pageNumber}/';
-    const METHOD         = 'GET';
-    const TAGS           = 'Trending';
-    const OPERATION_ID   = 'Trending.GetTrendingCategory';
 
-    const IS_PREVIEW     = false;
-    const IS_DEPRECATED  = false;
+    const NAME = 'Trending.GetTrendingCategory';
 
-    const PARAMETERS = [
-        
+    const URI = '/Trending/Categories/{categoryId}/{pageNumber}/';
+
+    const METHOD = 'GET';
+
+    const TAGS = [
+        'Trending',
     ];
+
+    const OPERATION_ID = 'Trending.GetTrendingCategory';
+
+    const IS_DEPRECATED = false;
+
+    const IS_PREVIEW = false;
 
     const RESPONSE = [
-        200 => '#/components/responses/SearchResultOfTrendingEntry'
+        200 => '#/components/responses/SearchResultOfTrendingEntry',
     ];
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+

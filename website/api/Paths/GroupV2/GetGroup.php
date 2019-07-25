@@ -1,31 +1,41 @@
 <?php
 
-namespace Destiny2\Api\GroupV2;
+namespace Destiny2\Api\Paths\GroupV2;
 
 /**
+ * GetGroup
+ *
  * Get information about a specific group of the given ID.
  */
 class GetGroup
 {
-    const NAME           = 'GroupV2.GetGroup';
-    const URI            = '/GroupV2/{groupId}/';
-    const METHOD         = 'GET';
-    const TAGS           = 'GroupV2';
-    const OPERATION_ID   = 'GroupV2.GetGroup';
 
-    const IS_PREVIEW     = false;
-    const IS_DEPRECATED  = false;
+    const NAME = 'GroupV2.GetGroup';
 
-    const PARAMETERS = [
-        
+    const URI = '/GroupV2/{groupId}/';
+
+    const METHOD = 'GET';
+
+    const TAGS = [
+        'GroupV2',
     ];
+
+    const OPERATION_ID = 'GroupV2.GetGroup';
+
+    const IS_DEPRECATED = false;
+
+    const IS_PREVIEW = false;
 
     const RESPONSE = [
-        200 => '#/components/responses/GroupsV2.GroupResponse'
+        200 => '#/components/responses/GroupsV2.GroupResponse',
     ];
 
-    public static function build()
+    public static function build($parameters)
     {
-
+        $test = 1;
+        return $test;
     }
+
+
 }
+
