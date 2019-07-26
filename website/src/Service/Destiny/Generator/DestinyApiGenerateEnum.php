@@ -16,28 +16,9 @@ class DestinyApiGenerateEnum extends DestinyApiGenerateAbstract
      */
     public static function build($schema)
     {
-        // simple class name
-        $component = explode('.', $schema['component']);
-        $namespace = $component[0];
-        $namespace = "Enums\\{$namespace}";
-        $classname = $component[1] ?? null;
-
-        if ($classname === null) {
-            $namespace = "Enums\\Generic";
-            $classname = $component[0];
-        }
-
         // build class
         $cls = new ClassGenerator();
-        $cls->setName($classname)
-            ->setNamespaceName(self::API_NAMESPACE .'\\'. $namespace)
-            ->setDocBlock(
-                DocBlockGenerator::fromArray([
-                    'shortDescription' => $classname,
-                ])
-            )
-            ->addConstant('NAME', $schema['component'])
-            ->addConstant('TYPE', $schema['type'])
+        $cls->addConstant('TYPE', $schema['type'])
             ->addConstant('TYPE_FORMAT', $schema['format'])
             ->addConstant('ENUMS_ALLOWED', $schema['enum']);
 
@@ -48,9 +29,6 @@ class DestinyApiGenerateEnum extends DestinyApiGenerateAbstract
 
         $cls->addConstant('ENUMS', $enumValues);
 
-        //
-        // Save
-        //
-        DestinyApiGenerateAbstract::write($namespace, $classname, $cls);
+        DestinyApiGenerateAbstract::write('Enums', $schema, $cls);
     }
 }

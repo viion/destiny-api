@@ -2,6 +2,7 @@
 
 namespace App\Service\Destiny\Generator;
 
+use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 
@@ -12,26 +13,38 @@ class DestinyApiGenerateAbstract
     /**
      * Write generated code to file
      */
-    public static function write($namespace, $classname, $class)
+    public static function write($type, $schema, ClassGenerator $cls)
     {
+        // Append the type to the namespace
+        $schema['namespace'] = "{$type}\\{$schema['namespace']}";
+
+        $cls->setName($schema['classname'])
+            ->setNamespaceName(self::API_NAMESPACE .'\\'. $schema['namespace'])
+            ->setDocBlock(
+                DocBlockGenerator::fromArray([
+                    'shortDescription' => $schema['classname'],
+                    'longDescription'  => $schema['description'] ?? 'No description'
+                ])
+            );
+
         // build filename
-        $classname = "{$classname}.php";
+        $classname = "{$schema['classname']}.php";
 
         // build folder
-        $namespace = __DIR__ ."/../../../../api/{$namespace}";
-        $namespace = str_ireplace('\\', '/', $namespace);
+        $folder = __DIR__ ."/../../../../api/{$schema['namespace']}";
+        $folder = str_ireplace('\\', '/', $folder);
 
         // make folder if it does not exist
-        if (!is_dir($namespace)) {
-            mkdir($namespace, 0777, true);
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
         }
 
         $file = FileGenerator::fromArray([
-            'classes' => [ $class ],
+            'classes' => [ $cls ],
         ]);
 
         // Save code
-        file_put_contents("{$namespace}/{$classname}", $file->generate());
+        file_put_contents("{$folder}/{$classname}", $file->generate());
     }
 
     /**

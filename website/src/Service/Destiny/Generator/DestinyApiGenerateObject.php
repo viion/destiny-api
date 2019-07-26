@@ -17,28 +17,8 @@ class DestinyApiGenerateObject extends DestinyApiGenerateAbstract
      */
     public static function build($schema)
     {
-        // simple class name
-        $component = explode('.', $schema['component'], 2);
-        $namespace = $component[0];
-        $namespace = "Objects\\{$namespace}";
-        $classname = $component[1] ?? null;
-
-        if ($classname === null) {
-            $namespace = "Objects\\Generic";
-            $classname = $component[0];
-        }
-
-        // build class
         $cls = new ClassGenerator();
-        $cls->setName($classname)
-            ->setNamespaceName(self::API_NAMESPACE .'\\'. $namespace)
-            ->setDocBlock(
-                DocBlockGenerator::fromArray([
-                    'shortDescription' => $classname,
-                ])
-            )
-            ->addConstant('NAME', $schema['component'])
-            ->addConstant('TYPE', $schema['type']);
+        $cls->addConstant('TYPE', $schema['type']);
 
         if (array_key_exists('properties', $schema)) {
             foreach ($schema['properties'] as $propName => $propSchema) {
@@ -50,9 +30,6 @@ class DestinyApiGenerateObject extends DestinyApiGenerateAbstract
             }
         }
 
-        //
-        // Save
-        //
-        DestinyApiGenerateAbstract::write($namespace, $classname, $cls);
+        DestinyApiGenerateAbstract::write('Objects', $schema, $cls);
     }
 }

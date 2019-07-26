@@ -2,9 +2,11 @@
 
 namespace App\Command;
 
+use App\Service\Destiny\Generator\DestinyApiGenerateArray;
 use App\Service\Destiny\Generator\DestinyApiGenerateEnum;
 use App\Service\Destiny\Generator\DestinyApiGenerateObject;
 use App\Service\Destiny\Generator\DestinyApiGeneratePath;
+use App\Service\Destiny\Generator\DestinyApiGenerateResponse;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -45,9 +47,11 @@ class BuildApiObjectsCommand extends Command
         //
         $this->console->writeln("<info>Building: ". count($definition['paths']) ." API Endpoint Paths</info>");
         foreach ($definition['paths'] as $uri => $schema) {
-            $this->console->writeln("Path: <comment>{$schema['summary']}</comment>");
-
+            $schema = $this->buildClassNameAndNameSpace($schema['summary'], $schema);
             $schema['uri'] = $uri;
+
+            $this->console->writeln("Write: <comment>{$schema['namespace']} --> {$schema['classname']}</comment>");
+
             DestinyApiGeneratePath::build($schema);
         }
 
@@ -56,19 +60,58 @@ class BuildApiObjectsCommand extends Command
         //
         $this->console->writeln("<info>Building: ". count($definition['components']['schemas']) ." API Component Schemas</info>");
         foreach ($definition['components']['schemas'] as $component => $schema) {
-            $this->console->writeln("Component: <comment>{$component}</comment>");
+            $schema = $this->buildClassNameAndNameSpace($component, $schema);
 
-            $schema['component'] = $component;
+            $this->console->writeln("Write: <comment>{$schema['namespace']} --> {$schema['classname']}</comment>");
 
             // handle enums
             if (array_key_exists('enum', $schema)) {
                 DestinyApiGenerateEnum::build($schema);
+                continue;
             }
 
             // handle objects
             if (array_key_exists('type', $schema) && $schema['type'] == 'object') {
                 DestinyApiGenerateObject::build($schema);
+                continue;
             }
+
+            // handle arrays
+            if (array_key_exists('type', $schema) && $schema['type'] == 'array') {
+                DestinyApiGenerateArray::build($schema);
+                continue;
+            }
+
+            print_r($schema);
+            throw new \Exception("Unknown schema");
         }
+
+        //
+        // Step 4) Build Response Schemas
+        //
+        $this->console->writeln("<info>Building: ". count($definition['components']['responses']) ." API Response Schemas</info>");
+        foreach ($definition['components']['responses'] as $component => $schema) {
+            $schema = $this->buildClassNameAndNameSpace($component, $schema);
+            DestinyApiGenerateResponse::build($schema);
+        }
+
+    }
+
+    /**
+     * Build the class name and namespace from a pattern
+     */
+    private function buildClassNameAndNameSpace(string $namespace, array $schema)
+    {
+        $namespace = str_ireplace('[]', null, $namespace);
+        $namespace = $namespace[0] == '.' ? "Generic.{$namespace}" : $namespace;
+        $namespace = str_ireplace('.', '\\', $namespace);
+
+        $classname = explode('\\', $namespace);
+        $classname = end($classname);
+
+        $schema['namespace'] = $namespace;
+        $schema['classname'] = $classname;
+
+        return $schema;
     }
 }

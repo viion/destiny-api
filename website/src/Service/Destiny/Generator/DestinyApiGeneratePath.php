@@ -3,7 +3,6 @@
 namespace App\Service\Destiny\Generator;
 
 use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\MethodGenerator;
 
 /**
@@ -16,28 +15,9 @@ class DestinyApiGeneratePath extends DestinyApiGenerateAbstract
      */
     public static function build($schema)
     {
-        $summary = explode('.', $schema['summary']);
-        $namespace = $summary[0] ?: 'Generic';
-        $classname = $summary[1];
-        $namespace = "Paths\\{$namespace}";
-
-        if ($classname === null) {
-            throw new \Exception("Unknown classname for summary: {$namespace}");
-        }
-
-        // format namespace
-
         // build class
         $cls = new ClassGenerator();
-        $cls->setName($classname)
-            ->setNamespaceName(self::API_NAMESPACE .'\\'. $namespace)
-            ->setDocBlock(
-                DocBlockGenerator::fromArray([
-                    'shortDescription' => $classname,
-                    'longDescription'  => $schema['description']
-                ])
-            )
-            ->addConstant('NAME', $schema['summary'])
+        $cls->addConstant('SUMMARY', $schema['summary'])
             ->addConstant('URI', $schema['uri'])
             ->addConstant('METHOD', DestinyApiGenerateAbstract::getMethod($schema));
 
@@ -75,9 +55,6 @@ class DestinyApiGeneratePath extends DestinyApiGenerateAbstract
             ])
         );
 
-        //
-        // Save
-        //
-        DestinyApiGenerateAbstract::write($namespace, $classname, $cls);
+        DestinyApiGenerateAbstract::write('Paths', $schema, $cls);
     }
 }
