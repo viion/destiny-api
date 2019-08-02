@@ -1,18 +1,25 @@
 <?php
 
-namespace App\Service\Destiny\API;
+namespace Destiny2\Api;
 
-use App\Service\Destiny\DestinyApi;
-use App\Service\Destiny\DestinyApiEndpoints;
-use App\Service\Destiny\DestinyToken;
 use Ramsey\Uuid\Uuid;
 
 /**
  * Documentation
  * https://github.com/Bungie-net/api/wiki/OAuth-Documentation
+ *
+ * Provides oAuth access to the destiny 2 api
  */
-class Auth extends DestinyApi
+class DestinyApiRequestAuth extends DestinyApiRequestHandler
 {
+    /**
+     * Endpoint for oauth token
+     */
+    const ENDPOINT = '/App/Oauth/Token/';
+    /**
+     * Method for token oauth
+     */
+    const ENDPOINT_METHOD = 'POST';
     /**
      * response_type: Must be “code”
      */
@@ -71,7 +78,7 @@ class Auth extends DestinyApi
             self::QUERY_STATE         => Uuid::uuid4()->toString(),
         ]);
         
-        return DestinyApi::ENDPOINT_AUTHORISE .'?'. $queryParams;
+        return DestinyApiRequestHandler::URI_AUTHORISE .'?'. $queryParams;
     }
     
     /**
@@ -79,18 +86,15 @@ class Auth extends DestinyApi
      */
     public function requestToken(string $code)
     {
-        return $this->request(
-            DestinyApiEndpoints::build(
-                'AppOauthToken',
-                null,
-                [
-                    'body' => [
-                        self::QUERY_GRANT_TYPE => self::GRANT_TYPE_AUTHORISE,
-                        self::QUERY_CODE => $code,
-                    ]
-                ]
-            )
-        );
+        $req = new DestinyApiRequest();
+        $req->setMethod(self::ENDPOINT_METHOD)
+            ->setEndpoint(self::ENDPOINT)
+            ->setBody([
+                self::QUERY_GRANT_TYPE => self::GRANT_TYPE_AUTHORISE,
+                self::QUERY_CODE => $code,
+            ]);
+
+        return $this->request($req);
     }
     
     /**
@@ -98,17 +102,14 @@ class Auth extends DestinyApi
      */
     public function refreshToken()
     {
-        return $this->request(
-            DestinyApiEndpoints::build(
-                'AppOauthToken',
-                null,
-                [
-                    'body' => [
-                        self::QUERY_GRANT_TYPE => self::GRANT_TYPE_REFRESH,
-                        self::QUERY_REFRESH_TOKEN => DestinyToken::getToken('refresh_token'),
-                    ]
-                ]
-            )
-        );
+        $req = new DestinyApiRequest();
+        $req->setMethod(self::ENDPOINT_METHOD)
+            ->setEndpoint(self::ENDPOINT)
+            ->setBody([
+                self::QUERY_GRANT_TYPE => self::GRANT_TYPE_REFRESH,
+                self::QUERY_REFRESH_TOKEN => DestinyApiToken::getToken('refresh_token'),
+            ]);
+
+        return $this->request($req);
     }
 }

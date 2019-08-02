@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Service\Destiny;
+namespace Destiny2\Api;
 
 use Delight\Cookie\Cookie;
 
-class DestinyToken
+/**
+ * Provides cookie and access interface for the Destiny API Token
+ */
+class DestinyApiToken
 {
     /**
      * Cookie name for storing the token
      */
     const COOKIE_NAME = 'destiny2_auth_token';
+
     /**
      * Store a retrieved token in the users cookies
      */

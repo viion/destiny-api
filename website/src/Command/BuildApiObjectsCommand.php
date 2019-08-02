@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\Destiny\DestinyApiGenerator;
 use App\Service\Destiny\Generator\DestinyApiGenerateArray;
 use App\Service\Destiny\Generator\DestinyApiGenerateEnum;
 use App\Service\Destiny\Generator\DestinyApiGenerateObject;
@@ -19,6 +20,10 @@ class BuildApiObjectsCommand extends Command
      * @var ConsoleOutput
      */
     private $console;
+    /**
+     * @var DestinyApiGenerator
+     */
+    private $generator;
 
     protected function configure()
     {
@@ -32,6 +37,7 @@ class BuildApiObjectsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->console = new ConsoleOutput();
+        $this->generator = new DestinyApiGenerator();
 
         // Step 1) Get the Destiny API Schema
         $this->console->writeln("Downloading API Schema");
@@ -52,7 +58,7 @@ class BuildApiObjectsCommand extends Command
 
             $this->console->writeln("Write: <comment>{$schema['namespace']} --> {$schema['classname']}</comment>");
 
-            DestinyApiGeneratePath::build($schema);
+            $this->generator->path()->build($schema);
         }
 
         //
@@ -66,19 +72,19 @@ class BuildApiObjectsCommand extends Command
 
             // handle enums
             if (array_key_exists('enum', $schema)) {
-                DestinyApiGenerateEnum::build($schema);
+                $this->generator->enum()->build($schema);
                 continue;
             }
 
             // handle objects
             if (array_key_exists('type', $schema) && $schema['type'] == 'object') {
-                DestinyApiGenerateObject::build($schema);
+                $this->generator->object()->build($schema);
                 continue;
             }
 
             // handle arrays
             if (array_key_exists('type', $schema) && $schema['type'] == 'array') {
-                DestinyApiGenerateArray::build($schema);
+                $this->generator->array()->build($schema);
                 continue;
             }
 
@@ -92,7 +98,7 @@ class BuildApiObjectsCommand extends Command
         $this->console->writeln("<info>Building: ". count($definition['components']['responses']) ." API Response Schemas</info>");
         foreach ($definition['components']['responses'] as $component => $schema) {
             $schema = $this->buildClassNameAndNameSpace($component, $schema);
-            DestinyApiGenerateResponse::build($schema);
+            $this->generator->response()->build($schema);
         }
 
     }

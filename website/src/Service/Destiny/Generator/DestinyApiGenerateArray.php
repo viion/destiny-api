@@ -12,7 +12,7 @@ class DestinyApiGenerateArray extends DestinyApiGenerateAbstract
     /**
      * Build bath logic
      */
-    public static function build($schema)
+    public function build($schema)
     {
         // build class
         $cls = new ClassGenerator();
@@ -25,6 +25,6 @@ class DestinyApiGenerateArray extends DestinyApiGenerateAbstract
                 'is_bitmask'    => $schema['items']['x-enum-is-bitmask'],
             ]);
 
-        DestinyApiGenerateAbstract::write('Types', $schema, $cls);
+        $this->write('Types', $schema, $cls);
     }
 }

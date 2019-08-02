@@ -12,23 +12,13 @@ class DestinyApiGenerateResponse extends DestinyApiGenerateAbstract
     /**
      * Build bath logic
      */
-    public static function build($schema)
+    public function build($schema)
     {
         // build class
         $cls = new ClassGenerator();
 
         if (array_key_exists('application/json', $schema['content'])) {
-            // grab ref based on types
-            if (isset($schema['content']['application/json']['schema']['properties']['Response']['items']['$ref'])) {
-                $object = $schema['content']['application/json']['schema']['properties']['Response']['items']['$ref'];
-                $type   = 'array';
-            } elseif (isset($schema['content']['application/json']['schema']['properties']['Response']['$ref'])) {
-                $object = $schema['content']['application/json']['schema']['properties']['Response']['$ref'];
-                $type   = 'object';
-            } else {
-                $object = "Generic\\{$schema['namespace']}";
-                $type   = 'generic';
-            }
+            [$object, $type] = $this->getResponseObjectAndType($schema);
 
             $namespace = str_ireplace('#/components/schemas/', null, $object);
             $namespace = str_ireplace('.', '\\', $namespace);
@@ -41,6 +31,30 @@ class DestinyApiGenerateResponse extends DestinyApiGenerateAbstract
                 ->addConstant('OBJECT', $object);
         }
 
-        DestinyApiGenerateAbstract::write('Responses', $schema, $cls);
+        $this->write('Responses', $schema, $cls);
+    }
+
+    /**
+     * Scrape out the response object and type
+     */
+    private function getResponseObjectAndType($schema): array
+    {
+        // grab ref based on types
+        if (isset($schema['content']['application/json']['schema']['properties']['Response']['items']['$ref'])) {
+            return [
+                $schema['content']['application/json']['schema']['properties']['Response']['items']['$ref'],
+                'array'
+            ];
+        } elseif (isset($schema['content']['application/json']['schema']['properties']['Response']['$ref'])) {
+            return [
+                $schema['content']['application/json']['schema']['properties']['Response']['$ref'],
+                'object'
+            ];
+        }
+
+        return [
+            "Generic\\{$schema['namespace']}",
+            'generic'
+        ];
     }
 }

@@ -13,7 +13,7 @@ class DestinyApiGenerateAbstract
     /**
      * Write generated code to file
      */
-    public static function write($type, $schema, ClassGenerator $cls)
+    public function write($type, $schema, ClassGenerator $cls)
     {
         // Append the type to the namespace
         $schema['namespace'] = "{$type}\\{$schema['namespace']}";
@@ -50,7 +50,7 @@ class DestinyApiGenerateAbstract
     /**
      * Detect the HTTP method use by the path schema
      */
-    public static function getMethod(array $schema): string
+    public function getMethod(array $schema): string
     {
         if (isset($schema['get'])) {
             return 'GET';

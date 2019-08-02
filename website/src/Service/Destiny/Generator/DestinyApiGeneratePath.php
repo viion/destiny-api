@@ -13,13 +13,13 @@ class DestinyApiGeneratePath extends DestinyApiGenerateAbstract
     /**
      * Build bath logic
      */
-    public static function build($schema)
+    public function build($schema)
     {
         // build class
         $cls = new ClassGenerator();
         $cls->addConstant('SUMMARY', $schema['summary'])
             ->addConstant('URI', $schema['uri'])
-            ->addConstant('METHOD', DestinyApiGenerateAbstract::getMethod($schema));
+            ->addConstant('METHOD', $this->getMethod($schema));
 
         //
         // Handle GET request
@@ -55,6 +55,6 @@ class DestinyApiGeneratePath extends DestinyApiGenerateAbstract
             ])
         );
 
-        DestinyApiGenerateAbstract::write('Paths', $schema, $cls);
+        $this->write('Paths', $schema, $cls);
     }
 }

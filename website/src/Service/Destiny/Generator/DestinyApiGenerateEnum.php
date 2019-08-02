@@ -14,7 +14,7 @@ class DestinyApiGenerateEnum extends DestinyApiGenerateAbstract
     /**
      * Build bath logic
      */
-    public static function build($schema)
+    public function build($schema)
     {
         // build class
         $cls = new ClassGenerator();
@@ -29,6 +29,6 @@ class DestinyApiGenerateEnum extends DestinyApiGenerateAbstract
 
         $cls->addConstant('ENUMS', $enumValues);
 
-        DestinyApiGenerateAbstract::write('Enums', $schema, $cls);
+        $this->write('Enums', $schema, $cls);
     }
 }

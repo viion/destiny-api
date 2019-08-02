@@ -15,7 +15,7 @@ class DestinyApiGenerateObject extends DestinyApiGenerateAbstract
     /**
      * Build bath logic
      */
-    public static function build($schema)
+    public function build($schema)
     {
         $cls = new ClassGenerator();
         $cls->addConstant('TYPE', $schema['type']);
@@ -30,6 +30,6 @@ class DestinyApiGenerateObject extends DestinyApiGenerateAbstract
             }
         }
 
-        DestinyApiGenerateAbstract::write('Objects', $schema, $cls);
+        $this->write('Objects', $schema, $cls);
     }
 }
